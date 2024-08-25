@@ -3,6 +3,8 @@
 # throughout this file
 import pygame
 from constants import *
+from player import Player
+from CircleShape import CircleShape
 black = (0, 0, 0) # Solid black colour (placed here for scope)
 
 def main(): # Everything so far is inside main (code structure)
@@ -11,6 +13,10 @@ def main(): # Everything so far is inside main (code structure)
     print(f"Screen height: {SCREEN_HEIGHT}")
 
     pygame.init() #Initializes pygame
+    clock = pygame.time.Clock() # Make a clock.
+    dt = 0
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # This determines the display resolution.
 
     iteration = 0 # Initializing iteration and setting starting value.
@@ -22,20 +28,24 @@ def main(): # Everything so far is inside main (code structure)
             if event.type == pygame.QUIT:
                 running = False
                 
-        # Fill the entire surface with black
+        # Fill the entire surface with blackpy
         screen.fill(black)
+        player.draw(screen)
+        player.update(dt)
                 
         # Update the display
         pygame.display.flip()
                 
         # Increment the iteration counter
         iteration += 1
+
+        dt = clock.tick(60) / 1000 # Pauses the game loop until 1/60th of a second has passed.
                 
         # Print the current iteration
         print(f"Iteration: {iteration}")
 
     # Quit Pygame
-    pygame.quit() 
+    pygame.quit()
 
 if __name__ == "__main__":
     main()
