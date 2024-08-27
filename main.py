@@ -4,8 +4,22 @@
 import pygame
 from constants import *
 from player import Player
+from AsteroidField import AsteroidField
 from CircleShape import CircleShape
 black = (0, 0, 0) # Solid black colour (placed here for scope)
+
+# Adding in Groups
+updatable = pygame.sprite.Group()
+drawable = pygame.sprite.Group()
+asteroids = pygame.sprite.Group()
+
+# After initializing all groups
+asteroid_field = AsteroidField(asteroids, updatable, drawable)
+updatable.add(asteroid_field)
+
+# Adding a container and we want player to be in them both.
+Player.containers = (updatable, drawable)
+
 
 def main(): # Everything so far is inside main (code structure)
     print("Starting asteroids!")
@@ -28,10 +42,25 @@ def main(): # Everything so far is inside main (code structure)
             if event.type == pygame.QUIT:
                 running = False
                 
-        # Fill the entire surface with blackpy
+        
+        # Fill the entire surface with black.py
+        # I have now changed the below code lines from calling the object directly to now calling the,
+        # pygame.sprite.update & pygame.sprite.updatable.
+
+        # Update and draw all sprites
+        dt = clock.tick(60) / 1000.0
+        updatable.update(dt)
+        drawable.draw(screen)
+        pygame.display.flip()
+
+
         screen.fill(black)
-        player.draw(screen)
-        player.update(dt)
+        for sprite in updatable:
+            sprite.update(dt)
+        for sprite in drawable:
+            sprite.draw(screen)
+        
+        
                 
         # Update the display
         pygame.display.flip()

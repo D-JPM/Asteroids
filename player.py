@@ -10,7 +10,14 @@ class Player(CircleShape): # Class Player created and inherits from circleshape.
         super().__init__(x, y, PLAYER_RADIUS)
         self.position = pygame.Vector2(x, y)
         self.rotation = 0
-        
+         # Define the image as a surface (same size as the player)
+        self.image = pygame.Surface((PLAYER_RADIUS * 2, PLAYER_RADIUS * 2), pygame.SRCALPHA)
+    
+        # Draw your player on this surface
+        pygame.draw.polygon(self.image, "white", self.triangle())
+
+        # Get a rect from the image
+        self.rect = self.image.get_rect(center=(x, y))
 
 
     def move(self, dt, direction):  
