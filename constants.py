@@ -2,6 +2,8 @@
 PLAYER_RADIUS = 20 # Define the size of the player's ship
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
+PLAYER_SHOOT_SPEED = 500 # How fast shots move and are fired by player
+SHOT_RADIUS = 5 
 
 ASTEROID_MIN_RADIUS = 20
 ASTEROID_KINDS = 3

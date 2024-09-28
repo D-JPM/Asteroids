@@ -2,7 +2,9 @@
 import pygame
 from CircleShape import CircleShape
 from constants import *
-from constants import PLAYER_TURN_SPEED
+from constants import PLAYER_TURN_SPEED, PLAYER_SHOOT_SPEED, SHOT_RADIUS
+from shot import Shot
+
 
 
 class Player(CircleShape): # Class Player created and inherits from circleshape.
@@ -10,6 +12,7 @@ class Player(CircleShape): # Class Player created and inherits from circleshape.
         super().__init__(x, y, PLAYER_RADIUS)
         self.position = pygame.Vector2(x, y)
         self.rotation = 0
+        self.angle = 0  # Initialize angle to 0 (facing upwards)
          # Define the image as a surface (same size as the player)
         self.image = pygame.Surface((PLAYER_RADIUS * 2, PLAYER_RADIUS * 2), pygame.SRCALPHA)
     
@@ -27,6 +30,9 @@ class Player(CircleShape): # Class Player created and inherits from circleshape.
 
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt
+        # Ensure rotation stays between 0 and 360
+        self.rotation %= 360
+
         
     
 
@@ -53,4 +59,13 @@ class Player(CircleShape): # Class Player created and inherits from circleshape.
         if keys[pygame.K_s]:
             self.move(dt, -1)
 
+    # If a variable is greyed out by the IDE, its means that this variable is not being used yet. (reminder).
+
+    def shoot(self):
+        shot_direction = pygame.Vector2(0, 1).rotate(self.rotation)
+        shot_position = self.position + shot_direction * (self.radius + SHOT_RADIUS)
+        shot_velocity = shot_direction * PLAYER_SHOOT_SPEED
+        new_shot = Shot(shot_position.x, shot_position.y, shot_velocity)
+        return new_shot
+        
 print("PLAYER_TURN_SPEED:", PLAYER_TURN_SPEED)
